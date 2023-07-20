@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\QueryBuilder;
 use ProtoneMedia\Splade\AbstractTable;
+use ProtoneMedia\Splade\Facades\Toast;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class Posts extends AbstractTable
@@ -74,8 +75,20 @@ $categories = Category::pluck( 'name', 'id' )->toArray();
              ->column( 'title', canBeHidden: false, sortable: true )
             ->withGlobalSearch( columns: ['title'] )
             ->column( 'slug', sortable: true )
+             ->column('updated_at')
             ->column( 'action',exportAs: false )
             ->selectFilter( 'category_id', $categories )
+              ->bulkAction(
+              label: 'Touch timestamp',
+              each: fn (Post $post) => $post->touch(),
+              before: fn () => info('Touching the selected projects'),
+              after: fn () => Toast::info('Timestamps updated!')
+              )
+              ->bulkAction(
+              label: 'Delete Posts',
+              each: fn (Post $post) => $post->delete(),
+              after: fn () => Toast::info('Posts  Deleted')
+              )
             ->export( label: 'Posts Excel',)
             ->paginate( 5 );
 
