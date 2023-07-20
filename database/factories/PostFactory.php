@@ -20,7 +20,7 @@ class PostFactory extends Factory
             'title'=>$this->faker->sentence(3),
             'slug'=>$this->faker->slug(),
             'description'=>$this->faker->paragraph(),
-            'category_id'=>1
+            'category_id'=>2
         ];
     }
 }
