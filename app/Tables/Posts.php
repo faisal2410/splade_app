@@ -72,10 +72,11 @@ $posts = QueryBuilder::for ( Post::class )
 $categories = Category::pluck( 'name', 'id' )->toArray();
 
         $table
+            ->column('id')
+             ->column('updated_at')
              ->column( 'title', canBeHidden: false, sortable: true )
             ->withGlobalSearch( columns: ['title'] )
             ->column( 'slug', sortable: true )
-             ->column('updated_at')
             ->column( 'action',exportAs: false )
             ->selectFilter( 'category_id', $categories )
               ->bulkAction(
