@@ -53,7 +53,7 @@ class Categories extends AbstractTable
              ->column('name', canBeHidden: false,sortable: true)
              ->column('slug')
               ->column('action',exportAs: false)
-              ->export( label: 'Categories Excel',)
+              ->export( label: 'Categories Excel')
               ->paginate(5);
 
             // ->searchInput()
